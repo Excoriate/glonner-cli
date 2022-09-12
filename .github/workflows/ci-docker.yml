@@ -37,4 +37,4 @@ jobs:
             - name: Build
               id: build-and-run
               run: |
-                  docker build -t helloworld-svc:latest .
+                  docker build -t glonner:latest .

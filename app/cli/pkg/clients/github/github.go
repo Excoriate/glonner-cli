@@ -50,7 +50,7 @@ func (g Client) GetAuth(token string) (map[string][]string, error) {
 	auth := make(map[string][]string)
 
 	if token == "" {
-		return nil, errors.New("Token is required (use --token or set GITHUB_TOKEN env var)")
+		return nil, errors.New("token is required (use --token or set GITHUB_TOKEN env var")
 	}
 
 	auth["Authorization"] = []string{fmt.Sprintf("token %s", token)}

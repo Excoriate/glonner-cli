@@ -7,7 +7,7 @@ on:
 defaults:
     run:
         shell: bash
-        working-directory: app/microservice
+        working-directory: app/cli
 
 permissions:
     contents: write

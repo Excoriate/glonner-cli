@@ -64,7 +64,7 @@ tasks:
         dir: app/cli
         cmds:
             - goreleaser check
-            - goreleaser release --rm-dist
+            - export GITHUB_TOKEN=${GITHUB_TOKEN} && goreleaser release --rm-dist
 
     pre-commit:
         cmds:
