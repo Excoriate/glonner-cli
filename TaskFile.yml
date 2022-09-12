@@ -28,26 +28,26 @@ tasks:
         dir: app/cli
         cmds:
             - go mod tidy
-            - go build -v -o dist/glonner-cli
+            - go build -v -o dist/glonner
 
     docker-build:
         dir: app
         cmds:
-            - docker build -t glonner-cli:latest .
+            - docker build -t glonner:latest .
 
     docker-run:
         cmds:
-            - docker run --rm -ti glonner-cli:latest {{.CLI_ARGS}}
+            - docker run --rm -ti glonner:latest {{.CLI_ARGS}}
 
     docker-start:
         cmds:
-            - docker run -d -p 8080:8080 -ti glonner-cli:latest {{.CLI_ARGS}}
+            - docker run -d -p 8080:8080 -ti glonner:latest {{.CLI_ARGS}}
 
     run-binary:
         dir: app/cli
         deps: [build]
         cmds:
-            - ./dist/glonner-cli {{.CLI_ARGS}}
+            - ./dist/glonner {{.CLI_ARGS}}
 
     run-dev:
         dir: app/cli
