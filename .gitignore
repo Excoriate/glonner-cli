@@ -1,0 +1,29 @@
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test binary, built with `go test -c`
+*.test
+
+# macOS
+**/.DS_Store
+
+# IDE
+.vscode/
+.idea/
+
+# Dev builds
+**/build/
+**/dist/
+
+# Tests
+**/tmp/
+*.out
+
+# Specific binaries
+**/bin/
+**/bin/go
+glonner-cli

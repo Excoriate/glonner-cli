@@ -1,0 +1,66 @@
+---
+project_name: glonner
+
+before:
+    hooks:
+        - go fmt ./...
+        - go vet ./...
+        - go test -v -cover -race -timeout 120s ./...
+
+builds:
+    - env:
+          - CGO_ENABLED=0
+      goos:
+          - linux
+          - windows
+          - darwin
+      goarch:
+          - amd64
+          - arm
+          - arm64
+      targets:
+          - linux_amd64
+          - darwin_amd64
+          - darwin_arm64
+          - windows_amd64
+      main: ./main.go
+
+brews:
+    - tap:
+          owner: Excoriate
+          name: homebrew-tap
+
+      url_template: https://github.com/Excoriate/glonner-cli/releases/download/{{ .Tag }}/{{ .ArtifactName }}
+
+      commit_author:
+          name: Excoriate
+          email: alex@ideaup.cl
+
+      folder: Formula
+      homepage: https://some-wiki-cli-page/ # TODO: Add wiki, or link to documentation later
+      description: A CLI tool for devour repositories within a given GitHub organization.
+      license: "Apache-2.0"
+
+archives:
+    - wrap_in_directory: true
+
+      format_overrides:
+          - goos: windows
+            format: zip
+      files:
+          - LICENSE
+          - README.md
+
+checksum:
+    name_template: checksums.txt
+
+snapshot:
+    name_template: '{{ .Tag }}-next'
+
+changelog:
+    sort: asc
+    filters:
+        exclude:
+            - '^docs:'
+            - '^test:'
+            - '^*.md:'

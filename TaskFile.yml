@@ -1,0 +1,84 @@
+---
+version: '3'
+
+tasks:
+    clean:
+        dir: app/cli
+        cmds:
+            - rm -rf dist
+
+    test:
+        dir: app/cli
+        cmds:
+            - go test -v -cover -race -timeout 120s ./...
+
+    fmt:
+        dir: app/cli
+        cmds:
+            - gofmt -d -e -l .
+
+    lint:
+        dir: app/cli
+        cmds:
+            - golangci-lint run ./... --color always -v
+        silent: true
+
+    build:
+        deps: [clean]
+        dir: app/cli
+        cmds:
+            - go mod tidy
+            - go build -v -o dist/glonner-cli
+
+    docker-build:
+        dir: app
+        cmds:
+            - docker build -t glonner-cli:latest .
+
+    docker-run:
+        cmds:
+            - docker run --rm -ti glonner-cli:latest {{.CLI_ARGS}}
+
+    docker-start:
+        cmds:
+            - docker run -d -p 8080:8080 -ti glonner-cli:latest {{.CLI_ARGS}}
+
+    run-binary:
+        dir: app/cli
+        deps: [build]
+        cmds:
+            - ./dist/glonner-cli {{.CLI_ARGS}}
+
+    run-dev:
+        dir: app/cli
+        cmds:
+            - go run main.go {{.CLI_ARGS}}
+
+    snapshot:
+        dir: app/cli
+        cmds:
+            - goreleaser check
+            - goreleaser release --snapshot --rm-dist --skip-publish
+
+    release:
+        dir: app/cli
+        cmds:
+            - goreleaser check
+            - goreleaser release --rm-dist
+
+    pre-commit:
+        cmds:
+            - pre-commit run --show-diff-on-failure --color always --all-files {{.CLI_ARGS}} # Pass arguments using -- <arg1> <arg2> ...
+
+    ci:
+        dir: app/cli
+        cmds:
+            - go mod tidy
+            - go fmt ./...
+            - go vet ./...
+            - go test -v -cover -race -timeout 120s ./...
+            - golangci-lint run ./... --color always -v
+            - goreleaser check
+            - goreleaser release --snapshot --rm-dist --skip-publish
+            - rm -rf dist
+            - pre-commit run --show-diff-on-failure --color always --all-files

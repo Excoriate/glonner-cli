@@ -1,0 +1,51 @@
+---
+name: CLI-Release
+
+on:
+    workflow_dispatch:
+
+defaults:
+    run:
+        shell: bash
+        working-directory: app/microservice
+
+permissions:
+    contents: write
+
+jobs:
+
+    create-release:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout Repository
+              uses: actions/checkout@v2
+              with:
+                  fetch-depth: 0
+
+            - name: Fetch all tags
+              run: |
+                  git fetch --force --tags
+
+            - name: Setup Go
+              uses: actions/setup-go@v3
+              with:
+                  go-version: 1.18
+
+            - name: Setup GoReleaser
+              run: |
+                  go install github.com/goreleaser/goreleaser@latest
+                  goreleaser --version
+
+            - name: GoReleaser Check
+              run: |
+                  goreleaser check
+
+            - name: Run GoReleaser
+              uses: goreleaser/goreleaser-action@v2
+              with:
+                  distribution: goreleaser
+                  version: ${{ env.GITHUB_REF_NAME }}
+                  args: release --rm-dist
+                  workdir: ./app/cli
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

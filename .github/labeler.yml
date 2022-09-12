@@ -1,0 +1,26 @@
+---
+ci/cd:
+    - .github/workflows/*
+
+infrastructure:
+    - terraform/**
+
+documentation:
+    - README.md
+    - ./*.md
+
+patch:
+    - TaskFile.yml
+    - LICENSE
+    - .yamllint.yml
+    - .eslintrc.yml
+    - .prettierrc.yml
+    - .stylelintrc.yml
+    - .gitignore
+    - .gitattributes
+    - .shellcheckrc
+    - .editorconfig
+    - .dockerignore
+
+minor:
+    - app/cli/pkg/*

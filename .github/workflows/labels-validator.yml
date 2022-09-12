@@ -1,0 +1,26 @@
+---
+name: Validate GH Labels
+
+on:
+    workflow_run:
+        workflows: [Assign labels on PR]
+        types:
+            - completed
+
+defaults:
+    run:
+        shell: bash
+
+jobs:
+
+    validate-labels:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout Repository
+              uses: actions/checkout@v2
+
+            - name: Validate Labels
+              uses: NathanielHill/check-pr-label-action@v4.0.0
+              with:
+                  github-token: ${{ secrets.GITHUB_TOKEN }}
+                  valid-labels: bug, major, premajor, minor, preminor, patch, prepatch, prerelease, XS, S, M, L, Too Large
