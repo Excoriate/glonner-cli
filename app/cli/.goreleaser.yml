@@ -50,8 +50,8 @@ archives:
           - goos: windows
             format: zip
       files:
-          - LICENSE
-          - README.md
+          - ../../LICENSE
+          - ../../README.md
 
 checksum:
     name_template: checksums.txt
