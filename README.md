@@ -1,5 +1,7 @@
-[![CI: App](https://github.com/HBOCodeLabs/hello-world-go/actions/workflows/ci-app.yml/badge.svg)](https://github.com/HBOCodeLabs/hello-world-go/actions/workflows/ci-app.yml)
-[![CI: Container](https://github.com/HBOCodeLabs/hello-world-go/actions/workflows/ci-docker.yml/badge.svg)](https://github.com/HBOCodeLabs/hello-world-go/actions/workflows/ci-docker.yml)
+[![CI: Container](https://github.com/Excoriate/glonner-cli/actions/workflows/ci-docker.yml/badge.svg)](https://github.com/Excoriate/glonner-cli/actions/workflows/ci-docker.yml)
+[![Generate Version Automatically](https://github.com/Excoriate/glonner-cli/actions/workflows/generate-tag-auto.yml/badge.svg)](https://github.com/Excoriate/glonner-cli/actions/workflows/generate-tag-auto.yml)
+[![CI: CLI](https://github.com/Excoriate/glonner-cli/actions/workflows/ci-app.yml/badge.svg)](https://github.com/Excoriate/glonner-cli/actions/workflows/ci-app.yml)
+[![CLI-Release](https://github.com/Excoriate/glonner-cli/actions/workflows/generate-release.yml/badge.svg)](https://github.com/Excoriate/glonner-cli/actions/workflows/generate-release.yml)
 <h1 align="center">
   Glonner CLI
 </h1>
@@ -9,13 +11,13 @@
 </p>
 <div align="center">
   <p align="center">
-    <a href="https://github.com/othneildrew/Best-README-Template"><strong>Explore the docs »</strong></a>
+    <a href="https://github.com/Excoriate/glonner-cli/tree/main/docs"><strong>Explore the docs »</strong></a>
     <br />
     <br />
     ·
-    <a href="https://github.com/HBOCodeLabs/hello-world-go/issues/new?assignees=alextorres-warner&labels=bug&template=bug_report.md&title=">Report Bug</a>
+    <a href="https://github.com/Excoriate/glonner-cli/issues/new?assignees=alextorres-warner&labels=bug&template=bug_report.md&title=">Report Bug</a>
     ·
-    <a href="https://github.com/HBOCodeLabs/hello-world-go/issues/new?assignees=alextorres-warner&labels=feature&template=feature_request.md&title=">Request Feature</a>
+    <a href="https://github.com/Excoriate/glonner-cli/issues/new?assignees=alextorres-warner&labels=feature&template=feature_request.md&title=">Request Feature</a>
   </p>
 </div>
 
