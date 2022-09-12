@@ -3,10 +3,10 @@ name: Bug report
 about: Create a bug report to help us improve.
 title: ""
 labels: "bug"
-assignees: "alextorres-warner"
+assignees: "Excoriate"
 ---
 
-Found a bug? Maybe just reach me out through [Email](strategicglobalinfrastructure@turner.onmicrosoft.com) would be better.
+Found a bug? Maybe just reach me out through [Email](alex@ideaup.cl) would be better.
 
 ## Describe the Bug
 A clear and concise description of what the bug is.
