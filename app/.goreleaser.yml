@@ -3,9 +3,7 @@ project_name: glonner
 
 before:
     hooks:
-        - go fmt ./...
-        - go vet ./...
-        - go test -v -cover -race -timeout 120s ./...
+        - ./goreleaser-helper.sh
 
 builds:
     - env:
