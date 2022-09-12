@@ -8,9 +8,7 @@ before:
         - cd cli && go test -v -cover -race -timeout 120s ./...
 
 builds:
-    -
-      main: ./cli/main.go
-      env:
+    - env:
           - CGO_ENABLED=0
       goos:
           - linux
@@ -25,7 +23,7 @@ builds:
           - darwin_amd64
           - darwin_arm64
           - windows_amd64
-      main: ./main.go
+      main: ./cli/main.go
 
 release:
     prerelease: auto
