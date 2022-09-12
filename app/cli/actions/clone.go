@@ -97,14 +97,13 @@ func checkIncompatibleArgs(args CloneActionArgs) bool {
 	if args.SkipIfExists && args.ForceIfExist {
 		return true
 	}
-
 	return false
 }
 
-func getRepositoriesFromGitHub(logger *logger.ILogger, org string, token string,
+func getRepositoriesFromGitHub(log *logger.ILogger, org string, token string,
 	dir string) ([]CloneActionResult,
 	error) {
-	ghSvc := services.NewGitHubSvc(logger)
+	ghSvc := services.NewGitHubSvc(log)
 	repositories, err := ghSvc.GetRepositories(org, token)
 
 	if err != nil {
@@ -163,7 +162,6 @@ func createRootDirIfNotExists(rootDir string) (bool, error) {
 
 func clone(s services.IGitHubSvc, repoDir string, repoName string, gitURL string,
 	dryRun bool) CloneRepoData {
-
 	if dryRun {
 		return CloneRepoData{
 			Name:     repoName,
@@ -206,7 +204,6 @@ func clone(s services.IGitHubSvc, repoDir string, repoName string, gitURL string
 			IsDryRun: false,
 			IsError:  false,
 		}
-
 	}
 
 	return CloneRepoData{}
@@ -214,7 +211,6 @@ func clone(s services.IGitHubSvc, repoDir string, repoName string, gitURL string
 
 func setupProgress(data []CloneActionResult, ghOrg string) (*pterm.ProgressbarPrinter,
 	*ux.ProgressBar) {
-
 	pbTitle := fmt.Sprintf("Cloning repositories of GitHub organisation: %s", ghOrg)
 	pbProgressMsg := "Cloning Git Repository"
 
@@ -231,7 +227,6 @@ func setupProgress(data []CloneActionResult, ghOrg string) (*pterm.ProgressbarPr
 }
 
 func CloneAction(globals GlobalRequiredArgs, args CloneActionArgs, logger *logger.ILogger) {
-
 	spinnerPreChecks := ux.GetSpinner("Checking pre-requisites", 1)
 
 	// 1. Check if the arguments are compatible.
@@ -459,7 +454,6 @@ func CloneAction(globals GlobalRequiredArgs, args CloneActionArgs, logger *logge
 								}
 							}
 						}
-
 					} else {
 						// Count this repo as skipped, since there was a folder detected with the same name.
 						summaryReposSkipped = append(summaryReposSkipped, CloneRepoData{
@@ -490,7 +484,7 @@ func CloneAction(globals GlobalRequiredArgs, args CloneActionArgs, logger *logge
 	showSummary(summaryReposOverridden, globals.Organization, "Overridden")
 }
 
-func showSummary(data []CloneRepoData, org string, status string) {
+func showSummary(data []CloneRepoData, org, status string) {
 	var tableHeaders [][]string
 	tableHeaders = append(tableHeaders, []string{"Org", "Repository", "URL", "Status"})
 
@@ -501,7 +495,7 @@ func showSummary(data []CloneRepoData, org string, status string) {
 		tableData = append(tableData, row...)
 	}
 
-	tableData = append(tableData, tableData...)
+	tableData = append(tableHeaders, tableData...)
 
 	if status == "Failed" {
 		_ = ux.ShowHeader(fmt.Sprintf("Summary of [%s] Repositories", status), "error")

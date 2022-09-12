@@ -129,7 +129,7 @@ type GitHubSvc struct {
 	logger *logger.ILogger
 }
 
-func (s GitHubSvc) GetRepositories(org string, token string) ([]RepoData,
+func (s GitHubSvc) GetRepositories(org, token string) ([]RepoData,
 	error) {
 	auth, err := s.client.GetAuth(token)
 	if err != nil {
@@ -177,7 +177,7 @@ func (s GitHubSvc) GetSimplifiedRepositoryData(repo RepoData) []RepoDataSimplifi
 	return data
 }
 
-func (s GitHubSvc) CloneRepository(cloneULR string, dirPath string) (bool, error) {
+func (s GitHubSvc) CloneRepository(cloneULR, dirPath string) (bool, error) {
 	out, err := system.RunCMD(*s.logger, "git", "clone", cloneULR, dirPath)
 
 	if err != nil {
@@ -193,9 +193,9 @@ func (s GitHubSvc) CloneRepository(cloneULR string, dirPath string) (bool, error
 	return true, nil
 }
 
-func NewGitHubSvc(logger *logger.ILogger) IGitHubSvc {
+func NewGitHubSvc(log *logger.ILogger) IGitHubSvc {
 	return &GitHubSvc{
-		client: github.NewGitHubClient(logger),
-		logger: logger,
+		client: github.NewGitHubClient(log),
+		logger: log,
 	}
 }

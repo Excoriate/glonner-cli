@@ -25,9 +25,7 @@ type IProgressBar interface {
 
 func NewProgressBar(title string, sleepTime int, progressMsg string, stdPrefixSuccessMsg string,
 	stdPrefixErrorMsg string, stdPrefixWarningMsg string) *ProgressBar {
-
 	timeIn := time.Duration(sleepTime) * time.Second
-
 	return &ProgressBar{
 		Title:                   title,
 		SleepTime:               timeIn,
@@ -38,7 +36,7 @@ func NewProgressBar(title string, sleepTime int, progressMsg string, stdPrefixSu
 	}
 }
 
-func (pb *ProgressBar) OnSuccess(item string, customMsg string) {
+func (pb *ProgressBar) OnSuccess(item, customMsg string) {
 	if customMsg != "" {
 		pterm.Success.Println(customMsg)
 	} else {
@@ -50,7 +48,7 @@ func (pb *ProgressBar) OnSuccess(item string, customMsg string) {
 	}
 }
 
-func (pb *ProgressBar) OnWarning(item string, customMsg string) {
+func (pb *ProgressBar) OnWarning(item, customMsg string) {
 	if customMsg != "" {
 		pterm.Warning.Println(customMsg)
 	} else {
@@ -62,7 +60,7 @@ func (pb *ProgressBar) OnWarning(item string, customMsg string) {
 	}
 }
 
-func (pb *ProgressBar) OnFail(item string, customMsg string) {
+func (pb *ProgressBar) OnFail(item, customMsg string) {
 	if customMsg != "" {
 		pterm.Error.Println(customMsg)
 	} else {

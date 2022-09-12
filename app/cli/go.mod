@@ -3,9 +3,7 @@ module github.com/glonner
 go 1.18
 
 require (
-	github.com/briandowns/spinner v1.19.0
 	github.com/google/uuid v1.3.0
-	github.com/jedib0t/go-pretty/v6 v6.3.7
 	github.com/pkg/errors v0.9.1
 	github.com/pterm/pterm v0.12.46
 	github.com/spf13/cobra v1.5.0
@@ -18,12 +16,9 @@ require (
 	atomicgo.dev/keyboard v0.2.8 // indirect
 	github.com/containerd/console v1.0.3 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
-	github.com/fatih/color v1.7.0 // indirect
 	github.com/gookit/color v1.5.0 // indirect
 	github.com/inconshreveable/mousetrap v1.0.0 // indirect
 	github.com/lithammer/fuzzysearch v1.1.5 // indirect
-	github.com/mattn/go-colorable v0.1.2 // indirect
-	github.com/mattn/go-isatty v0.0.8 // indirect
 	github.com/mattn/go-runewidth v0.0.13 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/rivo/uniseg v0.2.0 // indirect

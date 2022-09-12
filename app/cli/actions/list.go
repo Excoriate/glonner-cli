@@ -31,7 +31,7 @@ func checkOutputFormat(output string) bool {
 	return false
 }
 
-func ListAction(args GlobalRequiredArgs, specifics ListActionArgs, logger *logger.ILogger) {
+func ListAction(args GlobalRequiredArgs, specifics ListActionArgs, log *logger.ILogger) {
 	if specifics.Output == "" {
 		specifics.Output = "table"
 	}
@@ -42,7 +42,7 @@ func ListAction(args GlobalRequiredArgs, specifics ListActionArgs, logger *logge
 		return
 	}
 
-	ghSvc := services.NewGitHubSvc(logger)
+	ghSvc := services.NewGitHubSvc(log)
 	repositories, err := ghSvc.GetRepositories(args.Organization, args.Token)
 
 	if err != nil {

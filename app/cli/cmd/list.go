@@ -24,7 +24,6 @@ Only list, do not clone, all the repositories of a given GitHub organisation.
 		}
 
 		specifics := actions.ListActionArgs{} // This command, till now, does not require any specific arguments.
-
 		actions.ListAction(globals, specifics, &logger)
 	},
 }

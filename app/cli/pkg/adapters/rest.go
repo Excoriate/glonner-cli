@@ -27,8 +27,8 @@ func (r *Adapter) Get(url string, headers map[string][]string) (*http.Response, 
 	return client.Do(req)
 }
 
-func NewRestAdapter(logger *logger.ILogger) IRestAdapter {
+func NewRestAdapter(log *logger.ILogger) IRestAdapter {
 	return &Adapter{
-		logger: logger,
+		logger: log,
 	}
 }

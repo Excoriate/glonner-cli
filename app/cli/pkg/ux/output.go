@@ -5,7 +5,7 @@ import (
 	"os"
 )
 
-func OutInfo(message string, header string) {
+func OutInfo(message, header string) {
 	if header == "" {
 		pterm.Info.Println(message)
 	} else {
@@ -16,7 +16,7 @@ func OutInfo(message string, header string) {
 	}
 }
 
-func OutError(message string, header string, killOnError bool) {
+func OutError(message, header string, killOnError bool) {
 	if header == "" {
 		pterm.Error.Println(message)
 	} else {
@@ -31,7 +31,7 @@ func OutError(message string, header string, killOnError bool) {
 	}
 }
 
-func OutSuccess(message string, header string) {
+func OutSuccess(message, header string) {
 	if header == "" {
 		pterm.Success.Println(message)
 	} else {
@@ -42,7 +42,7 @@ func OutSuccess(message string, header string) {
 	}
 }
 
-func OutFatal(message string, header string, killOnError bool) {
+func OutFatal(message, header string, killOnError bool) {
 	if header == "" {
 		pterm.Fatal.Println(message)
 	} else {
@@ -57,7 +57,7 @@ func OutFatal(message string, header string, killOnError bool) {
 	}
 }
 
-func OutWarn(message string, header string) {
+func OutWarn(message, header string) {
 	if header == "" {
 		pterm.Warning.Println(message)
 	} else {
@@ -66,13 +66,4 @@ func OutWarn(message string, header string) {
 		}
 		pterm.Warning.Println(message)
 	}
-}
-
-func ShowAppTitle(appName string, topMsg string, bottomMsg string) {
-	pterm.DefaultCenter.Println(topMsg)
-
-	s, _ := pterm.DefaultBigText.WithLetters(pterm.NewLettersFromString(appName)).Srender()
-	pterm.DefaultCenter.Println(s)
-
-	pterm.DefaultCenter.WithCenterEachLineSeparately().Println(bottomMsg)
 }

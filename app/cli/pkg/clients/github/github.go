@@ -80,9 +80,9 @@ func (g Client) GetData(uri string, auth map[string][]string) (*http.Response, e
 	return resp, nil
 }
 
-func NewGitHubClient(logger *logger.ILogger) IGitHubClient {
+func NewGitHubClient(log *logger.ILogger) IGitHubClient {
 	return &Client{
-		logger: *logger,
-		rest:   rest.NewRestAdapter(logger),
+		logger: *log,
+		rest:   rest.NewRestAdapter(log),
 	}
 }
