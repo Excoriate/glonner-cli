@@ -61,7 +61,7 @@ tasks:
             - goreleaser release --snapshot --rm-dist --skip-publish
 
     release:
-        dir: app
+        dir: app/cli
         cmds:
             - goreleaser check
             - export GITHUB_TOKEN=${GITHUB_TOKEN} && goreleaser release --rm-dist
@@ -82,3 +82,9 @@ tasks:
             - goreleaser release --snapshot --rm-dist --skip-publish
             - rm -rf dist
             - pre-commit run --show-diff-on-failure --color always --all-files
+
+
+    install:
+        cmds:
+            - brew tap Excoriate/homebrew-tap
+            - brew install glonner

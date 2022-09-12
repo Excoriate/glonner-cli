@@ -3,6 +3,9 @@ name: Generate Version Manual
 
 on:
     workflow_dispatch:
+    push:
+        branches:
+            - main
 
 defaults:
     run:
