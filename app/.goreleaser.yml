@@ -16,11 +16,11 @@ builds:
           - amd64
           - arm
           - arm64
-      targets:
-          - linux_amd64
-          - darwin_amd64
-          - darwin_arm64
-          - windows_amd64
+#      targets:
+#          - linux_amd64
+#          - darwin_amd64
+#          - darwin_arm64
+#          - windows_amd64
       main: ./cli
 
 release:
