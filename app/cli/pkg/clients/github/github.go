@@ -1,9 +1,9 @@
 package github
 
 import (
+	"errors"
 	"fmt"
 	rest "github.com/glonner/pkg/adapters"
-	"github.com/glonner/pkg/common"
 	logger "github.com/glonner/pkg/log"
 	"net/http"
 )
@@ -49,21 +49,11 @@ func (g Client) GetURL(org string, page int) string {
 func (g Client) GetAuth(token string) (map[string][]string, error) {
 	auth := make(map[string][]string)
 
-	var tokenResolved string
-
 	if token == "" {
-		tokenFromEnv, err := common.GetEnv("GITHUB_TOKEN")
-
-		if err != nil {
-			return auth, err
-		}
-
-		tokenResolved = tokenFromEnv
-	} else {
-		tokenResolved = token
+		return nil, errors.New("Token is required (use --token or set GITHUB_TOKEN env var)")
 	}
 
-	auth["Authorization"] = []string{fmt.Sprintf("token %s", tokenResolved)}
+	auth["Authorization"] = []string{fmt.Sprintf("token %s", token)}
 	auth["Accept"] = []string{"application/vnd.github+jso"}
 	auth["Content-Type"] = []string{"application/json"}
 

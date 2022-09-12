@@ -44,8 +44,9 @@ func addRootFlags() {
 		"GitHub private token. If not passed, it'll try to get it from the GITHUB_TOKEN environment variable.")
 
 	rootCmd.PersistentFlags().StringVarP(&organization, "org", "g", "",
-		"GitHub organization or owner to fetch required repositories from GITHUB")
+		"GitHub organization or owner to fetch required repositories from GITHUB_ORG")
 
+	// They aren't required anymore, since they can be set as environment variables
 	_ = rootCmd.MarkFlagRequired("token")
 	_ = rootCmd.MarkFlagRequired("org")
 }

@@ -133,6 +133,8 @@ $ GITHUB_ORG="gruntwork-io" GITHUB_TOKEN="your-token" glonner list
 - [ ] ❤️ Add Unit Test coverage.
 - [ ] ❤️ Add a built-in configuration, using 'Viper', to keep tack of local repositories cloned.
 - [ ] ❤️️ Add a way to selectively clone repositories, based on a given set of criteria.
+- [ ] ❤️️ Allow custom output formats. Currently, it's supporting only 'table'. Potential formats: 'json', 'yaml', 'csv', etc.
+- [ ] ❤️️ Add a _storage/capacity_ check, for larger organizations and less-space-in-disk sort of machines.
 
 See the [open issues](https://github.com/HBOCodeLabs/hello-world-go/issues) for a full list of proposed features (and known issues). Also, your contributions are more than welcome — just ensure following the [contributing guidelines](docs/guides/contribution_guidelines.md).
 

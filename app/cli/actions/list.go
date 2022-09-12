@@ -32,6 +32,15 @@ func checkOutputFormat(output string) bool {
 }
 
 func ListAction(args GlobalRequiredArgs, specifics ListActionArgs, log *logger.ILogger) {
+	options, err := GetRequiredOrgAndToken(&args)
+	if err != nil {
+		ux.OutError(err.Error(), "args", false)
+		return
+	}
+
+	org := options.Organization
+	token := options.Token
+
 	if specifics.Output == "" {
 		specifics.Output = "table"
 	}
@@ -43,16 +52,24 @@ func ListAction(args GlobalRequiredArgs, specifics ListActionArgs, log *logger.I
 	}
 
 	ghSvc := services.NewGitHubSvc(log)
-	repositories, err := ghSvc.GetRepositories(args.Organization, args.Token)
+	repositories, err := ghSvc.GetRepositories(org, token)
 
 	if err != nil {
-		// TODO: Handler error, accordingly.
+		ux.OutError(err.Error(), "giuhub", false)
+		return
+	}
+
+	if len(repositories) == 0 {
+		ux.OutError(fmt.Sprintf("No repositories were found, for organisation: %s", org), "github",
+			false)
 		return
 	}
 
 	var data []ListDataResult
+
 	for _, repo := range repositories {
 		repoDataSimplified := ghSvc.GetSimplifiedRepositoryData(repo)
+
 		for _, item := range repoDataSimplified {
 			data = append(data, ListDataResult{
 				RepositoryName: item.Name,

@@ -226,7 +226,16 @@ func setupProgress(data []CloneActionResult, ghOrg string) (*pterm.ProgressbarPr
 	return pbStarted, pb
 }
 
-func CloneAction(globals GlobalRequiredArgs, args CloneActionArgs, logger *logger.ILogger) {
+func CloneAction(globals GlobalRequiredArgs, args CloneActionArgs, log *logger.ILogger) {
+	options, err := GetRequiredOrgAndToken(&globals)
+	if err != nil {
+		ux.OutError(err.Error(), "args", false)
+		return
+	}
+
+	org := options.Organization
+	token := options.Token
+
 	spinnerPreChecks := ux.GetSpinner("Checking pre-requisites", 1)
 
 	// 1. Check if the arguments are compatible.
@@ -258,14 +267,16 @@ func CloneAction(globals GlobalRequiredArgs, args CloneActionArgs, logger *logge
 
 	// 3. Get the repositories from GitHub.
 	// -----------------------------------
-	ghSvc := services.NewGitHubSvc(logger)
-	repositories, err := getRepositoriesFromGitHub(logger, globals.Organization, globals.Token, rootDir)
+	ghSvc := services.NewGitHubSvc(log)
+	repositories, err := getRepositoriesFromGitHub(log, org, token, rootDir)
 
 	if err != nil {
-		ux.OutError("Could not fetch repository data.", "", false)
+		ux.OutError(fmt.Sprintf("Could not feetch repository data from Github organization: %s, "+
+			"using token: %s", org, token), "auth", false)
+		return
 	}
 
-	spinnerPreChecks.Success("Pre-requisites checked successfully")
+	spinnerPreChecks.Success("Pre-requisites checked, and passed successfully")
 
 	// Summary of the results expected after the clone-process finishes.
 	// -----------------------------------
@@ -274,14 +285,12 @@ func CloneAction(globals GlobalRequiredArgs, args CloneActionArgs, logger *logge
 	var summaryReposSkipped []CloneRepoData
 	var summaryReposOverridden []CloneRepoData
 
-	pbInstance, pbLib := setupProgress(repositories, globals.Organization)
+	pbInstance, pbLib := setupProgress(repositories, org)
 
 	// 4. Clone the repositories.
 	// 4.1. Destination directory is empty, or it is fairly new.
 	// -----------------------------------
 	if dirConfig.isNew || dirConfig.isEmpty {
-		// If it's new, it was created already, so become empty.
-		// If it's empty, it was created already, so it remains empty.
 		for _, repo := range repositories {
 			specificRepoDir := fmt.Sprintf("%s%s", dirConfig.rootDir, repo.RepositoryName)
 
@@ -310,14 +319,22 @@ func CloneAction(globals GlobalRequiredArgs, args CloneActionArgs, logger *logge
 						"with address: %s", repo.RepositoryName, repo.CloneURL))
 				} else {
 					repo.DirCloned = specificRepoDir
-					cloneResult := clone(ghSvc, repo.DirCloned, repo.RepositoryName, repo.CloneURL,
+					_ = clone(ghSvc, repo.DirCloned, repo.RepositoryName, repo.CloneURL,
 						args.DryRun)
-					summaryReposCloned = append(summaryReposCloned, cloneResult)
+					summaryReposCloned = append(summaryReposCloned, CloneRepoData{
+						Name:         repo.RepositoryName,
+						Dir:          specificRepoDir,
+						GitURL:       repo.CloneURL,
+						IsCloned:     true,
+						IsSkipped:    false,
+						IsError:      false,
+						IsDryRun:     false,
+						IsOverridden: false,
+					})
 					pbLib.OnSuccess("", fmt.Sprintf("Git clone completed for repository %s, "+
 						"with address: %s", repo.RepositoryName, repo.CloneURL))
 				}
 			} else {
-				// Count this repo as skipped, since there was a folder detected with the same name.
 				summaryReposSkipped = append(summaryReposSkipped, CloneRepoData{
 					Name:     repo.RepositoryName,
 					Dir:      specificRepoDir,
@@ -340,7 +357,6 @@ func CloneAction(globals GlobalRequiredArgs, args CloneActionArgs, logger *logge
 		for _, repo := range repositories {
 			specificRepoDir := fmt.Sprintf("%s%s", dirConfig.rootDir, repo.RepositoryName)
 
-			// Increment the progress bar.
 			pbInstance.UpdateTitle(fmt.Sprintf("Cloning Git Repository ("+
 				"existing/with-content dir): %s from address: %s",
 				repo.RepositoryName, repo.CloneURL))
@@ -368,15 +384,24 @@ func CloneAction(globals GlobalRequiredArgs, args CloneActionArgs, logger *logge
 						"with address: %s", repo.RepositoryName, repo.CloneURL))
 				} else {
 					repo.DirCloned = specificRepoDir
-					cloneResult := clone(ghSvc, repo.DirCloned, repo.RepositoryName, repo.CloneURL,
+					_ = clone(ghSvc, repo.DirCloned, repo.RepositoryName, repo.CloneURL,
 						args.DryRun)
-					summaryReposCloned = append(summaryReposCloned, cloneResult)
+					summaryReposCloned = append(summaryReposCloned, CloneRepoData{
+						Name:         repo.RepositoryName,
+						Dir:          specificRepoDir,
+						GitURL:       repo.CloneURL,
+						IsCloned:     true,
+						IsSkipped:    false,
+						IsError:      false,
+						IsDryRun:     false,
+						IsOverridden: false,
+					})
+
 					pbLib.OnSuccess("", fmt.Sprintf("Git clone completed for repository %s, "+
 						"with address: %s", repo.RepositoryName, repo.CloneURL))
 				}
 			} else {
 				if args.SkipIfExists {
-					// Count this repo as skipped, since there was a folder detected with the same name.
 					summaryReposSkipped = append(summaryReposSkipped, CloneRepoData{
 						Name:         repo.RepositoryName,
 						Dir:          specificRepoDir,
@@ -434,9 +459,19 @@ func CloneAction(globals GlobalRequiredArgs, args CloneActionArgs, logger *logge
 										"with address: %s", repo.RepositoryName, repo.CloneURL))
 								} else {
 									repo.DirCloned = specificRepoDir
-									cloneResult := clone(ghSvc, repo.DirCloned, repo.RepositoryName, repo.CloneURL,
+									_ = clone(ghSvc, repo.DirCloned, repo.RepositoryName,
+										repo.CloneURL,
 										args.DryRun)
-									summaryReposCloned = append(summaryReposCloned, cloneResult)
+									summaryReposCloned = append(summaryReposCloned, CloneRepoData{
+										Name:         repo.RepositoryName,
+										Dir:          specificRepoDir,
+										GitURL:       repo.CloneURL,
+										IsCloned:     true,
+										IsSkipped:    false,
+										IsError:      false,
+										IsDryRun:     false,
+										IsOverridden: false,
+									})
 
 									pbLib.OnSuccess("", fmt.Sprintf("Git clone completed for repository %s, "+
 										"with address: %s", repo.RepositoryName, repo.CloneURL))
@@ -455,7 +490,6 @@ func CloneAction(globals GlobalRequiredArgs, args CloneActionArgs, logger *logge
 							}
 						}
 					} else {
-						// Count this repo as skipped, since there was a folder detected with the same name.
 						summaryReposSkipped = append(summaryReposSkipped, CloneRepoData{
 							Name:         repo.RepositoryName,
 							Dir:          specificRepoDir,
