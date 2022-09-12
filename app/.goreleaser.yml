@@ -8,7 +8,9 @@ before:
         - cd cli && go test -v -cover -race -timeout 120s ./...
 
 builds:
-    - env:
+    -
+      main: ./cli/main.go
+      env:
           - CGO_ENABLED=0
       goos:
           - linux
