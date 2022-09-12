@@ -1,5 +1,4 @@
 [![CI: Container](https://github.com/Excoriate/glonner-cli/actions/workflows/ci-docker.yml/badge.svg)](https://github.com/Excoriate/glonner-cli/actions/workflows/ci-docker.yml)
-[![Generate Version Automatically](https://github.com/Excoriate/glonner-cli/actions/workflows/generate-tag-auto.yml/badge.svg)](https://github.com/Excoriate/glonner-cli/actions/workflows/generate-tag-auto.yml)
 [![CI: CLI](https://github.com/Excoriate/glonner-cli/actions/workflows/ci-app.yml/badge.svg)](https://github.com/Excoriate/glonner-cli/actions/workflows/ci-app.yml)
 [![CLI-Release](https://github.com/Excoriate/glonner-cli/actions/workflows/generate-release.yml/badge.svg)](https://github.com/Excoriate/glonner-cli/actions/workflows/generate-release.yml)
 <h1 align="center">
@@ -121,11 +120,21 @@ $ GITHUB_ORG="gruntwork-io" GITHUB_TOKEN="your-token" glonner list
 
 <!-- INSTALLATION -->
 ## Installation
-
+### Using Homebrew
+```bash
+brew tap Excoriate/homebrew-tap
+brew install glonner
+```
+Or, if you have [TaskFile](https://taskfile.dev/#/installation) installed, it's the same method, just wrapping it with it:
+```bash
+task install
+```
 
 
 <!-- USAGE -->
 ## Usage
+![](docs/images/demo.gif)
+
 
 
 <!-- ROADMAP -->
