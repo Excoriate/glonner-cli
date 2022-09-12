@@ -33,6 +33,7 @@ brews:
     - tap:
           owner: Excoriate
           name: homebrew-tap
+          branch: main
 
       url_template: https://github.com/Excoriate/glonner-cli/releases/download/{{ .Tag }}/{{ .ArtifactName }}
 
@@ -41,7 +42,7 @@ brews:
           email: alex@ideaup.cl
 
       folder: Formula
-      homepage: https://some-wiki-cli-page/ # TODO: Add wiki, or link to documentation later
+      homepage: https://github.com/Excoriate/glonner-cli
       description: A CLI tool for devour repositories within a given GitHub organization.
       license: Apache-2.0
 

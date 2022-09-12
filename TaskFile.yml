@@ -61,7 +61,7 @@ tasks:
             - goreleaser release --snapshot --rm-dist --skip-publish
 
     release:
-        dir: app/cli
+        dir: app
         cmds:
             - goreleaser check
             - export GITHUB_TOKEN=${GITHUB_TOKEN} && goreleaser release --rm-dist
