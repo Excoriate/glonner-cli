@@ -25,6 +25,10 @@ builds:
           - windows_amd64
       main: ./main.go
 
+release:
+    prerelease: auto
+
+
 brews:
     - tap:
           owner: Excoriate
