@@ -174,6 +174,22 @@ func clone(s services.IGitHubSvc, repoDir string, repoName string, gitURL string
 
 	isCloned, err := s.CloneRepository(gitURL, repoDir)
 
+	// TODO: Smartly, handle errors and retry if there's an SSH(
+	// sh) way of connecting rather than pure HTTP.
+	if !isCloned && err != nil {
+		// Replace URL with the SSH format
+		gitURL = strings.Replace(gitURL, "https://", "git@", 1)
+		gitURL = strings.Replace(gitURL, ".com/", ".com:", 1)
+		gitURL = strings.Replace(gitURL, ".com:", ".com:", 1)
+		gitURL = strings.Replace(gitURL, ".git/", ".git:", 1)
+		gitURL = strings.Replace(gitURL, ".git:", ".git:", 1)
+		gitURL = strings.Replace(gitURL, ".git", ".git", 1)
+		gitURL = strings.Replace(gitURL, ".git/", ".git/", 1)
+		gitURL = strings.Replace(gitURL, ".git", ".git", 1)
+
+		isCloned, err = s.CloneRepository(gitURL, repoDir)
+	}
+
 	if err != nil {
 		if err != nil {
 			ux.OutError(fmt.Sprintf("The repository %s could not be cloned due to an error. "+

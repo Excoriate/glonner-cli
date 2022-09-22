@@ -37,7 +37,7 @@ type Auth struct {
 
 func (g Client) GetURL(org string, page int) string {
 	var uri string
-	if page > 1 {
+	if page != 0 {
 		uri = fmt.Sprintf("%s/orgs/%s/%s?type=all&per_page=100&page=%d", base, org, api, page)
 	} else {
 		uri = fmt.Sprintf("%s/orgs/%s/%s?type=all&per_page=100", base, org, api)
